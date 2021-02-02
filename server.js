@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-
 const app = express();
 const PORT = 3000;
 
@@ -11,11 +10,19 @@ app.use(express.static('public'));
 
 app.get('/notes',(req, res) => res.sendFile(path.join(__dirname, './public/notes.html')));
 app.get('/',(req, res) => res.sendFile(path.join(__dirname, './public/index.html')));
-app.get("/api/notes", (req, res) => res.sendFile(path.join(__dirname, "/db/db.json")));
+app.get('/api/notes', (req, res) => res.sendFile(path.join(__dirname, '/db/db.json')));
 
-// app.post('/api/notes', (req,res) => {
 
-// })
+app.post('/api/notes', function(req, res) {
+    const noteOne = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+    const noteTwo = req.body;
+    const newId = (noteOne.length).toString();
+    noteTwo.id = newId;
+    noteOne.push(noteTwo);
 
+    fs.writeFileSync('./db/db.json', JSON.stringify(noteOne));
+    console.log('Note successfully added');
+    res.json(noteOne);
+})
 
 app.listen(PORT, () => console.log(`App listiening on http://localhost:${PORT}`));
