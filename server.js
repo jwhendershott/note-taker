@@ -25,4 +25,10 @@ app.post('/api/notes', function(req, res) {
     res.json(noteOne);
 })
 
+// Attempted to set button to delete, but am currently unable to get it to function.
+// app.delete("/api/notes/:id", function(req, res) {
+//     let currentNotes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+//     let noteID = req.params.id;
+//     let newID = 0; 
+
 app.listen(PORT, () => console.log(`App listiening on http://localhost:${PORT}`));
